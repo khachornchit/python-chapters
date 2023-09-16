@@ -20,17 +20,14 @@ def inputStudentIdGrades():
 
 def inputUIDs(ids, grades) -> None:
     print("Key ids of the upgraded students:")
-    ugrades = []
     finalGrades = grades.copy()
     uids = input().split()
     for index in range(len(uids)):
         index2 = ids.index(uids[index])
         grade = grades[index2]
-        ugrade = getUpgrade(grade)
-        finalGrades[index2] = ugrade
-        ugrades.append(getUpgrade(grade))
+        finalGrades[index2] = getUpgrade(grade)
 
-    return uids, ugrades, finalGrades
+    return finalGrades
 
 
 def getUpgrade(grade):
@@ -42,12 +39,12 @@ def getUpgrade(grade):
 
 
 def displayOutput(ids, grades, finalGrades) -> None:
-    print('Original Grade')
+    print('Student Ids : Grade -> Upgrade')
     for i in range(len(ids)):
-        print(ids[i], " -> ", grades[i], " ", finalGrades[i])
+        print(ids[i], " : ", grades[i], " -> ", finalGrades[i])
 
 
 if __name__ == "__main__":
     ids, grades = inputStudentIdGrades()
-    uids, ugrades, finalGrades = inputUIDs(ids, grades)
+    finalGrades = inputUIDs(ids, grades)
     displayOutput(ids, grades, finalGrades)
