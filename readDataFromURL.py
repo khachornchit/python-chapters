@@ -5,61 +5,38 @@ import json
 def validateId(line):
     try:
         data = json.loads(line)
-        if ('_id' in line):
-            return data['_id']['$oid']
+        return data['_id']['$oid']
     except Exception as e:
-        return ""
-
-    return ""
-
+        return False
 
 def validateTitle(line):
     try:
         data = json.loads(line)
-        if ('title' in line):
-            return data['title']
+        return data['title']
     except Exception as e:
         return ""
-
-    return ""
-
 
 def validateYear(line):
     try:
         data = json.loads(line)
-        if ('year' in line):
-            return int(data['year']['$numberInt'])
+        return int(data['year']['$numberInt'])
     except Exception as e:
         return ""
-
-    return ""
-
 
 def validateGenres(line):
     try:
         data = json.loads(line)
-        if ('genres' in line):
-            return data['genres']
+        return data['genres']
     except Exception as e:
         return ""
-
-    return ""
-
 
 def validateTomatoes(line):
     try:
         data = json.loads(line)
-        if ('tomatoes' in line
-            and 'viewer' in line
-            and 'meter' in line
-                and '$numberInt' in line):
-            return int(data['tomatoes']['viewer']['meter']['$numberInt'])
+        return int(data['tomatoes']['viewer']['meter']['$numberInt'])
 
     except Exception as e:
         return ""
-
-    return ""
-
 
 def load_data_to_movie_dict(link):
     f = requests.get(link)
@@ -70,7 +47,7 @@ def load_data_to_movie_dict(link):
         dict = {}
         id = validateId(line)
 
-        if (id != ""):
+        if (id != False):
             dict.update({
                 id: {
                     "title": validateTitle(line),
