@@ -9,58 +9,60 @@ def validateId(line):
     except Exception as e:
         return False
 
-def validateTitle(line):
+def validateTitle(data):
     try:
-        data = json.loads(line)
         return data['title']
     except Exception as e:
         return ""
 
-def validateYear(line):
+def validateYear(data):
     try:
-        data = json.loads(line)
         return int(data['year']['$numberInt'])
     except Exception as e:
         return ""
 
-def validateGenres(line):
+def validateGenres(data):
     try:
-        data = json.loads(line)
         return data['genres']
     except Exception as e:
         return ""
 
-def validateTomatoes(line):
+def validateTomatoes(data):
     try:
-        data = json.loads(line)
         return int(data['tomatoes']['viewer']['meter']['$numberInt'])
 
     except Exception as e:
         return ""
+    
+def getData(id, line):
+    dict = {}
+
+    if (id != False):
+         data = json.loads(line)
+         dict.update({
+            id: {
+                "title": validateTitle(data),
+                "year": validateYear(data),
+                "genres": validateGenres(data),
+                "rating": validateTomatoes(data)
+            }
+        })
+
+    return dict
 
 def load_data_to_movie_dict(link):
     f = requests.get(link)
     lines = f.text.split("\n")
-    all_dict = {}
+    data = {}
 
     for line in lines:
-        dict = {}
         id = validateId(line)
-
-        if (id != False):
-            dict.update({
-                id: {
-                    "title": validateTitle(line),
-                    "year": validateYear(line),
-                    "genres": validateGenres(line),
-                    "rating": validateTomatoes(line)
-                }
-            })
+        dict = getData(id, line)
 
         if (dict != {}):
-            all_dict.update(dict)
+            data.update(dict)
 
-    return all_dict
+    return data
 
 
 if __name__ == "__main__":
