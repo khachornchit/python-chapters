@@ -34,8 +34,9 @@ def validateTomatoes(data):
     except Exception as e:
         return ""
     
-def getData(id, line):
+def getData(line):
     dict = {}
+    id = validateId(line)
 
     if (id != False):
          data = json.loads(line)
@@ -56,8 +57,7 @@ def load_data_to_movie_dict(link):
     data = {}
 
     for line in lines:
-        id = validateId(line)
-        dict = getData(id, line)
+        dict = getData(line)
 
         if (dict != {}):
             data.update(dict)
