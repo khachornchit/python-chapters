@@ -9,11 +9,13 @@ def validateId(line):
     except Exception as e:
         return False
 
+
 def validateTitle(data):
     try:
         return data['title']
     except Exception as e:
         return ""
+
 
 def validateYear(data):
     try:
@@ -21,11 +23,13 @@ def validateYear(data):
     except Exception as e:
         return ""
 
+
 def validateGenres(data):
     try:
         return data['genres']
     except Exception as e:
         return ""
+
 
 def validateTomatoes(data):
     try:
@@ -33,14 +37,15 @@ def validateTomatoes(data):
 
     except Exception as e:
         return ""
-    
-def getData(line):
+
+
+def transformData(line):
     dict = {}
     id = validateId(line)
 
     if (id != False):
-         data = json.loads(line)
-         dict.update({
+        data = json.loads(line)
+        dict.update({
             id: {
                 "title": validateTitle(data),
                 "year": validateYear(data),
@@ -51,13 +56,14 @@ def getData(line):
 
     return dict
 
-def load_data_to_movie_dict(link):
-    f = requests.get(link)
+
+def loadDataToMovieDict(urlRawData):
+    f = requests.get(urlRawData)
     lines = f.text.split("\n")
     data = {}
 
     for line in lines:
-        dict = getData(line)
+        dict = transformData(line)
 
         if (dict != {}):
             data.update(dict)
@@ -66,6 +72,6 @@ def load_data_to_movie_dict(link):
 
 
 if __name__ == "__main__":
-    link = 'https://raw.githubusercontent.com/sothornin/file/main/movies_2010_2013.json'
-    result = load_data_to_movie_dict(link)
+    urlRawData = 'https://raw.githubusercontent.com/sothornin/file/main/movies_2010_2013.json'
+    result = loadDataToMovieDict(urlRawData)
     print(result)
