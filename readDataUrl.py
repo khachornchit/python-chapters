@@ -140,13 +140,13 @@ def searchQuery(query, movies):
                 if (keyword3 in titles):
                     stage3s.append(movie)
 
-            return [keywords, stage3s]
+        return [keywords, stage3s]
 
 
 if __name__ == "__main__":
     urlRawData = 'https://raw.githubusercontent.com/sothornin/file/main/movies_2010_2013.json'
     [movieWithIds, movieNoIds] = loadDataToMovieDict(urlRawData)
-    [keywords, movies] = searchQuery("my way", movieNoIds)
+    [keywords, movies] = searchQuery("happy", movieNoIds)
 
     for movie in movies:
         print(movie)
