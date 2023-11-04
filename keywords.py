@@ -1,17 +1,26 @@
-if __name__ == "__main__":
-    query = "the engineering student mechanical"
+def getKeywords(query):
     words = query.split()
     n = len(words)
+    keywords = []
 
-    # Get keywords
     for i in range(len(words)):
         keyword1 = ' '.join(words[i:n])
-        print(keyword1)
+        keywords.append(keyword1)
 
         if (i > 0):
             keyword2 = ' '.join(words[0:n-i])
-            print(keyword2)
+            keywords.append(keyword2)
 
         if (i > 0 and i < n-1):
             keyword3 = ' '.join(words[i:n-1])
-            print(keyword3)
+            keywords.append(keyword3)
+
+    return keywords
+
+
+if __name__ == "__main__":
+    query = "the engineering student mechanical"
+    keywords = getKeywords(query)
+
+    for keyword in keywords:
+        print(keyword)
