@@ -139,8 +139,8 @@ def searchQuery(query, movies):
                 titles = movie['title'].lower()
                 if (keyword3 in titles):
                     stage3s.append(movie)
-            if (len(stage3s) > 0):
-                return [keywords, stage3s]
+
+            return [keywords, stage3s]
 
 
 if __name__ == "__main__":
