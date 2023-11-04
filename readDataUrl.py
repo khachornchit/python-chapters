@@ -2,95 +2,83 @@ import requests
 import json
 
 
-def validateId(line):
-    try:
-        data = json.loads(line)
-        return data['_id']['$oid']
-    except Exception as e:
-        return False
+def transformData(line):
 
+    def validateId(line):
+        try:
+            data = json.loads(line)
+            return data['_id']['$oid']
+        except Exception as e:
+            return False
 
-def validateTitle(data):
-    try:
-        return data['title']
-    except Exception as e:
-        return ""
+    def validateTitle(data):
+        try:
+            return data['title']
+        except Exception as e:
+            return ""
 
+    def validateYear(data):
+        try:
+            return int(data['year']['$numberInt'])
+        except Exception as e:
+            return ""
 
-def validateYear(data):
-    try:
-        return int(data['year']['$numberInt'])
-    except Exception as e:
-        return ""
+    def validateGenres(data):
+        try:
+            return data['genres']
+        except Exception as e:
+            return ""
 
+    def validateTomatoes(data):
+        try:
+            return int(data['tomatoes']['viewer']['meter']['$numberInt'])
 
-def validateGenres(data):
-    try:
-        return data['genres']
-    except Exception as e:
-        return ""
+        except Exception as e:
+            return ""
 
+    def main():
+        id = validateId(line)
+        withId = {}
+        noId = {}
 
-def validateTomatoes(data):
-    try:
-        return int(data['tomatoes']['viewer']['meter']['$numberInt'])
+        if (id != False):
+            data = json.loads(line)
 
-    except Exception as e:
-        return ""
+            withId.update({
+                id: {
+                    "title": validateTitle(data),
+                    "year": validateYear(data),
+                    "genres": validateGenres(data),
+                    "rating": validateTomatoes(data)
+                }
+            })
 
-
-def transformDataWithId(line):
-    dict = {}
-    id = validateId(line)
-
-    if (id != False):
-        data = json.loads(line)
-        dict.update({
-            id: {
+            noId.update({
                 "title": validateTitle(data),
                 "year": validateYear(data),
                 "genres": validateGenres(data),
                 "rating": validateTomatoes(data)
-            }
-        })
+            })
 
-    return dict
+        return [withId, noId]
 
-
-def transformDataNoId(line):
-    dict = {}
-    id = validateId(line)
-
-    if (id != False):
-        data = json.loads(line)
-        dict.update({
-            "title": validateTitle(data),
-            "year": validateYear(data),
-            "genres": validateGenres(data),
-            "rating": validateTomatoes(data)
-        })
-
-    return dict
+    return main()
 
 
 def loadDataToMovieDict(urlRawData):
     f = requests.get(urlRawData)
     lines = f.text.split("\n")
-    movieWithIds = []
-    movieNoIds = []
+    withIds = []
+    noIds = []
 
     for line in lines:
-        movieWithId = transformDataWithId(line)
+        [withId, noId] = transformData(line)
 
-        if (movieWithId != {}):
-            movieWithIds.append(movieWithId)
+        if (withId != {}):
+            withIds.append(withId)
+            noIds.append(noId)
 
-        movieNoId = transformDataNoId(line)
-
-        if (movieNoId != {}):
-            movieNoIds.append(movieNoId)
-
-    return [movieWithIds, movieNoIds]
+    return [withIds, noIds]
 
 
 def searchQuery(query, movies):
@@ -136,10 +124,10 @@ def searchQuery(query, movies):
 
 if __name__ == "__main__":
     urlRawData = 'https://raw.githubusercontent.com/sothornin/file/main/movies_2010_2013.json'
-    [movieWithIds, movieNoIds] = loadDataToMovieDict(urlRawData)
-    [keyword, results] = searchQuery("my way", movieNoIds)
+    [withIds, noIds] = loadDataToMovieDict(urlRawData)
+    [keywords, results] = searchQuery("my way", noIds)
 
-    print(keyword)
+    # print(keywords)
 
     for movie in results:
         print(movie)
