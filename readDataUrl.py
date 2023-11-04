@@ -114,9 +114,8 @@ def searchQuery(query, movies):
         for keyword in keywords:
             results = searchByKeyword(keyword)
             if (len(results) > 0):
-                return [keyword, results]
+                return [keywords, results]
 
-        keyword = keywords
         return [keywords, results]
 
     return main()
@@ -127,7 +126,8 @@ if __name__ == "__main__":
     [withIds, noIds] = loadDataToMovieDict(urlRawData)
     [keywords, results] = searchQuery("my way", noIds)
 
-    # print(keywords)
+    print('Keywords: \n', keywords, '\n')
 
+    print('Search results:')
     for movie in results:
         print(movie)
