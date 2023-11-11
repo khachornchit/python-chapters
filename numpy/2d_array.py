@@ -2,7 +2,7 @@
 
 import numpy as np
 
-def create_5x6():
+def create_6x5():
     return np.array([
         [4,0,4,0,5],
         [5,3,2,8,4],
@@ -14,5 +14,5 @@ def create_5x6():
     ])
     
 if __name__ == "__main__":
-    array = create_5x6()
+    array = create_6x5()
     print(array)
