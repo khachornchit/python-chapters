@@ -1,6 +1,6 @@
 import requests
 import json
-from MovieSearch import MovieSearch
+from .MovieSearch import MovieSearch
 
 
 class MovieDataLoader:

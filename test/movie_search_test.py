@@ -1,6 +1,6 @@
 
-from MovieDataLoader import MovieDataLoader
-from MovieSearch import MovieSearch
+from ..oop.MovieDataLoader import MovieDataLoader
+from ..oop.MovieSearch import MovieSearch
 
 
 def test_movie_search():
