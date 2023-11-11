@@ -4,7 +4,10 @@ import numpy as np
 
 arrange = np.arange(6)
 
-arr = np.array([[0, 1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12, 13]])
+arr = np.array([
+    [0, 1, 2, 3, 4, 5, 6], 
+    [7, 8, 9, 10, 11, 12, 13]
+])
 
 print("arrange: \n", arrange)
 print("arr: \n", arr)
@@ -65,7 +68,10 @@ bbb[0, 0]=500
 print(bbb)
 
 # Reorganizing Arrays
-before = np.array([[1,2,3,4],[5,6,7,8]])
+before = np.array([
+    [1,2,3,4],
+    [5,6,7,8]
+])
 print(before)
 
 after = before.reshape(1, 8)
