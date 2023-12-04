@@ -1,5 +1,4 @@
-idea/
-.idea/
+.idea
 numpy_env/
 numpy_env/Include
 numpy_env/Lib
