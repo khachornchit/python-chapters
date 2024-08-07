@@ -4,3 +4,4 @@ numpy_env/Include
 numpy_env/Lib
 numpy_env/Script
 numpy_env
+web_framework/flask/venv
